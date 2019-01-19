@@ -10,6 +10,8 @@ mainScreen::mainScreen(QLabel *parent,QString PATH) : QLabel(parent),PATH(PATH)
     displayTimer->setInterval(75);
     connect(displayTimer,SIGNAL(timeout()),this,SLOT(updateDisplay()));
 
+    timeOutTimer = new QTimer(this);
+    timeOutTimer->setInterval(5000);
 
 
     resultDisplay = new QLabel(this);
@@ -85,7 +87,9 @@ void mainScreen::setupStates()
     cd->addTransition(this,SIGNAL(countDownOver()),jump);
     connect(jump,SIGNAL(entered()),this,SLOT(goJump()));
 
+    connect(jump,SIGNAL(entered()),timeOutTimer,SLOT(start()));
     jump->addTransition(this,SIGNAL(gotValidJump()),result);
+    jump->addTransition(timeOutTimer,SIGNAL(timeout()),idle);
     connect(result,SIGNAL(entered()),this,SLOT(goResult()));
 
 

@@ -43,6 +43,7 @@ private:
 
     QTimer *displayTimer,*displayTimer2;
     QTimer *stateTimer;
+    QTimer *timeOutTimer;
 
     int countDownValue;
     int jumpHeight,jumpHeight2;
