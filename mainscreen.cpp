@@ -2,7 +2,7 @@
 
 mainScreen::mainScreen(QLabel *parent,QString PATH) : QLabel(parent),PATH(PATH)
 {
-    //showFullScreen();
+   showFullScreen();
     resize(1080,1920);
 
     displayTimer = new QTimer(this);

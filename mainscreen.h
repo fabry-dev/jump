@@ -42,6 +42,8 @@ private:
 
     int countDownValue;
     int jumpHeight,jumpHeight2;
+
+    mpvWidget *vp;
 signals:
     void gotJump(int);
     void gotValidJump();
