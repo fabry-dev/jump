@@ -2,7 +2,7 @@
 
 mainScreen::mainScreen(QLabel *parent,QString PATH) : QLabel(parent),PATH(PATH)
 {
-    showFullScreen();
+    //showFullScreen();
     resize(1080,1920);
     loadCoefs();
 
@@ -168,6 +168,7 @@ void mainScreen::goIdle()
 {
     resultDisplay->hide();
     vp->hide();
+    vp->move(width(),0);
     jumpHeight=0;
     setPixmap(QPixmap(PATH+"idle.png").scaled(width(),height()));
 }
@@ -302,6 +303,7 @@ void mainScreen::showVideo()
     vp->raise();
     vp->loadFile(PATH+"video.mp4");
     vp->setProperty("pause", false);
+    vp->move(0,0);
 
 
     QTimer::singleShot(2200,this,SLOT(showEarth()));
