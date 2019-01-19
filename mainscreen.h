@@ -35,15 +35,23 @@ private:
     QState *cd;
     QState *jump;
     QState *result;
+    QState *videoresult;
 
     QLabel *resultDisplay;
-    QTimer *displayTimer;
+
+    QLabel *earthDisplay,*moonDisplay,*marsDisplay,*jupiterDisplay;
+
+    QTimer *displayTimer,*displayTimer2;
     QTimer *stateTimer;
 
     int countDownValue;
     int jumpHeight,jumpHeight2;
 
+    double earth,moon,mars,jupiter;
+    void loadCoefs();
     mpvWidget *vp;
+    int earthScore,earthScore2,marsScore,marsScore2,moonScore,moonScore2,jupiterScore,jupiterScore2;
+    QFont font,font2;
 signals:
     void gotJump(int);
     void gotValidJump();
@@ -59,7 +67,12 @@ private slots:
     void goResult();
     void updateDisplay();
 
+    void showVideo();
     void countDown();
+    void showEarth();
+    void showMoon();
+    void showJupiter();
+    void showMars();
 
 
 protected:

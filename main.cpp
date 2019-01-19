@@ -91,7 +91,7 @@ int main(int argc, char *argv[])
 
 
 
-    ms->setGeometry(a.screens()[0]->geometry().x(),a.screens()[0]->geometry().y(),1080,1920);
+    ms->setGeometry(a.screens()[2]->geometry().x(),a.screens()[2]->geometry().y(),1080,1920);
     ms->show();
 
     if(DEBUG)
