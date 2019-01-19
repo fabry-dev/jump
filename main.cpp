@@ -4,7 +4,7 @@
 #include "qwidget.h"
 #include "mainscreen.h"
 #include "qdebug.h"
-
+#include "QPushButton"
 
 
 #include "serialwatcher.h"
@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
         PATH=PATH_DEFAULT;
 
     bool HIDE_CURSOR=false;
-
+    bool DEBUG=false;
 
 
     QFile file(PATH+"config.cfg");
@@ -58,6 +58,8 @@ int main(int argc, char *argv[])
 
                 if (paramName.mid(0,6)=="CURSOR")
                     HIDE_CURSOR = (paramValue=="NO");
+                else if (paramName.mid(0,5)=="DEBUG")
+                    DEBUG = (paramValue=="YES");
 
                 else
                     qDebug()<<paramName<<" - "<<paramValue;
@@ -88,8 +90,21 @@ int main(int argc, char *argv[])
 
 
 
+
     ms->setGeometry(a.screens()[2]->geometry().x(),a.screens()[2]->geometry().y(),1080,1920);
     ms->show();
+
+    if(DEBUG)
+    {
+    QPushButton *pb0 = new QPushButton(ms);
+    pb0->move(0,0);
+    pb0->resize(200,200);
+    pb0->setText("close app");
+    a.connect(pb0,SIGNAL(clicked(bool)),&a,SLOT(closeAllWindows()));
+    pb0->show();
+    pb0->raise();
+    }
+
 
     a.connect(serialwatch,SIGNAL(getJumpTime(int)),ms,SLOT(getJump(int)));
     a.connect(serialwatch,SIGNAL(getJumpTime(int)),ms,SIGNAL(gotJump(int)));

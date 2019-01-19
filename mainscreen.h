@@ -38,7 +38,7 @@ private:
 
     QLabel *resultDisplay;
     QTimer *displayTimer;
-
+    QTimer *stateTimer;
 
     int countDownValue;
     int jumpHeight,jumpHeight2;

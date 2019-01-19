@@ -5,7 +5,7 @@ mainScreen::mainScreen(QLabel *parent,QString PATH) : QLabel(parent),PATH(PATH)
     resize(1080,1920);
 
     displayTimer = new QTimer(this);
-    displayTimer->setInterval(50);
+    displayTimer->setInterval(75);
     connect(displayTimer,SIGNAL(timeout()),this,SLOT(updateDisplay()));
 
     resultDisplay = new QLabel(this);
@@ -14,9 +14,9 @@ mainScreen::mainScreen(QLabel *parent,QString PATH) : QLabel(parent),PATH(PATH)
     //resultDisplay->setStyleSheet("border: 2px solid white");
     //resultDisplay->show();
 
-    jumpHeight = 66;
-    goResult();
-    //setupStates();
+
+
+   setupStates();
 
 
 }
@@ -31,6 +31,9 @@ void mainScreen::setupStates()
     jump = new QState();
     result = new QState();
 
+    stateTimer = new QTimer(this);
+    stateTimer->setSingleShot(true);
+    stateTimer->setInterval(5000);
 
     connect(idle,SIGNAL(entered()),this,SLOT(goIdle()));
 
@@ -47,6 +50,9 @@ void mainScreen::setupStates()
     jump->addTransition(this,SIGNAL(gotValidJump()),result);
     connect(result,SIGNAL(entered()),this,SLOT(goResult()));
 
+
+    result->addTransition(stateTimer,SIGNAL(timeout()),idle);
+    connect(this,SIGNAL(displayOver()),stateTimer,SLOT(start()));
 
     machine.addState(idle);
     machine.addState(rules);
