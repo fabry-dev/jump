@@ -24,32 +24,32 @@ mainScreen::mainScreen(QLabel *parent,QString PATH) : QLabel(parent),PATH(PATH)
     vp->resize(size());
     vp->setLoop(false);
     vp->setProperty("pause", false);
-    vp->setProperty("keep-open",true);
+    vp->setProperty("keep-open",false);
     vp->hide();
 
 
     int y0 = 747;
     earthDisplay = new QLabel(vp);
     earthDisplay->resize(300,50);
-  //  earthDisplay->setStyleSheet("border: 2px solid white");
+    //  earthDisplay->setStyleSheet("border: 2px solid white");
     earthDisplay->move(550,y0);
     earthDisplay->show();
 
     moonDisplay = new QLabel(vp);
     moonDisplay->resize(300,50);
-  //  moonDisplay->setStyleSheet("border: 2px solid white");
+    //  moonDisplay->setStyleSheet("border: 2px solid white");
     moonDisplay->move(550,y0+155);
     moonDisplay->show();
 
     marsDisplay = new QLabel(vp);
     marsDisplay->resize(300,50);
-   // marsDisplay->setStyleSheet("border: 2px solid white");
+    // marsDisplay->setStyleSheet("border: 2px solid white");
     marsDisplay->move(550,y0+2*155);
     marsDisplay->show();
 
     jupiterDisplay = new QLabel(vp);
     jupiterDisplay->resize(300,50);
-   // jupiterDisplay->setStyleSheet("border: 2px solid white");
+    // jupiterDisplay->setStyleSheet("border: 2px solid white");
     jupiterDisplay->move(550,y0+3*155);
     jupiterDisplay->show();
 
@@ -170,9 +170,10 @@ void mainScreen::loadCoefs()
 
 void mainScreen::goIdle()
 {
+    qDebug()<<"idle";
     resultDisplay->hide();
     vp->hide();
-    vp->move(width(),0);
+
     jumpHeight=0;
     setPixmap(QPixmap(PATH+"idle.png").scaled(width(),height()));
 }
@@ -303,13 +304,15 @@ void mainScreen::showVideo()
     moonDisplay->hide();
     earthDisplay->hide();
     marsDisplay->hide();
+
     vp->show();
-    vp->raise();
+    vp->lower();
     vp->loadFile(PATH+"video.mp4");
     vp->setProperty("pause", false);
-    vp->move(0,0);
+    vp->raise();
 
 
+    qDebug()<<"video";
     QTimer::singleShot(2200,this,SLOT(showEarth()));
     QTimer::singleShot(3400,this,SLOT(showMoon()));
     QTimer::singleShot(4450,this,SLOT(showMars()));

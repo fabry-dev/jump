@@ -152,13 +152,13 @@ void mpvWidget::handle_mpv_event(mpv_event *event)
     case MPV_EVENT_PAUSE:
     {
 // qDebug()<<"ennnnnd";
-    emit videoOver();
+   // emit videoOver();
         break;
     }
     case MPV_EVENT_IDLE:
     {
 
-
+ emit videoOver();
         break;
     }
     case MPV_EVENT_PROPERTY_CHANGE: {
