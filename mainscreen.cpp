@@ -176,7 +176,7 @@ void mainScreen::goIdle()
 void mainScreen::goRules()
 {
     setPixmap(QPixmap(PATH+"rules.png").scaled(width(),height()));
-    QTimer::singleShot(4000,this,SIGNAL(countDownOver()));
+    QTimer::singleShot(1500,this,SIGNAL(countDownOver()));
 
 }
 
