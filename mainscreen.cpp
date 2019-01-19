@@ -2,7 +2,7 @@
 
 mainScreen::mainScreen(QLabel *parent,QString PATH) : QLabel(parent),PATH(PATH)
 {
-    showFullScreen();
+    //showFullScreen();
     resize(1080,1920);
 
     displayTimer = new QTimer(this);
@@ -172,6 +172,8 @@ void mainScreen::updateDisplay()
 
 void mainScreen::getJump(int time)
 {
+    qDebug()<<"jump "<<time;
+
     if((machine.configuration().contains(jump))&&(time>30))
     {
         double h = (double)time*115/1000;
