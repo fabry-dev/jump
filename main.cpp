@@ -9,7 +9,7 @@
 
 #include "serialwatcher.h"
 
-#define PATH_DEFAULT (QString)"/home/fred/Dropbox/Taf/Cassiopee/jump/files/"
+#define PATH_DEFAULT (QString)"/home/fred/Dropbox/Taf/Cassiopee/bikes/files/"
 #define TIMEOUT 15000
 
 #define defaultSpeed (10)
@@ -31,7 +31,7 @@ int main(int argc, char *argv[])
 
     bool HIDE_CURSOR=false;
     bool DEBUG=false;
-
+    int rotations = 5;
 
     QFile file(PATH+"config.cfg");
     if(!file.open(QIODevice::ReadOnly)) {
@@ -47,6 +47,7 @@ int main(int argc, char *argv[])
         QString paramName,paramValue;
         QStringList params;
 
+
         while(!in.atEnd()) {
             line = in.readLine();
             line = (line.split("#"))[0];
@@ -60,6 +61,12 @@ int main(int argc, char *argv[])
                     HIDE_CURSOR = (paramValue=="NO");
                 else if (paramName.mid(0,5)=="DEBUG")
                     DEBUG = (paramValue=="YES");
+                else if (paramName=="ROTATIONS")
+                {
+                    rotations = paramValue.toInt();
+
+                }
+
 
                 else
                     qDebug()<<paramName<<" - "<<paramValue;
@@ -86,12 +93,12 @@ int main(int argc, char *argv[])
 
     qDebug()<<"Screens count: "<<a.screens().size();
 
-    mainScreen * ms = new mainScreen(NULL,PATH);
+    mainScreen * ms = new mainScreen(NULL,PATH,rotations);
 
 
 
 
-    ms->setGeometry(a.screens()[0]->geometry().x(),a.screens()[0]->geometry().y(),1080,1920);
+    ms->setGeometry(a.screens()[2]->geometry().x(),a.screens()[2]->geometry().y(),1080,1920);
     ms->show();
 
     if(DEBUG)
@@ -106,8 +113,7 @@ int main(int argc, char *argv[])
     }
 
 
-    a.connect(serialwatch,SIGNAL(getJumpTime(int)),ms,SLOT(getJump(int)));
-    a.connect(serialwatch,SIGNAL(getJumpTime(int)),ms,SIGNAL(gotJump(int)));
+    a.connect(serialwatch,SIGNAL(getData(int)),ms,SLOT(getData(int)));
 
 
 

@@ -24,56 +24,53 @@ class mainScreen : public QLabel
 {
     Q_OBJECT
 public:
-    explicit mainScreen(QLabel *parent = nullptr,QString PATH="");
+    explicit mainScreen(QLabel *parent = nullptr, QString PATH="", int rotationsToWin=5);
 
 private:
     QString PATH;
+    int rotationsToWin;
+    int raceState;
+
+
     void setupStates();
     QStateMachine machine;
-    QState *idle;
-    QState *rules;
-    QState *cd;
-    QState *jump;
-    QState *result;
-    QState *videoresult;
-
-    QLabel *resultDisplay;
-
-    QLabel *earthDisplay,*moonDisplay,*marsDisplay,*jupiterDisplay;
-
-    QTimer *displayTimer,*displayTimer2;
-    QTimer *stateTimer;
-    QTimer *timeOutTimer;
-
-    int countDownValue;
-    int jumpHeight,jumpHeight2;
-
-    double earth,moon,mars,jupiter;
-    void loadCoefs();
     mpvWidget *vp;
-    int earthScore,earthScore2,marsScore,marsScore2,moonScore,moonScore2,jupiterScore,jupiterScore2;
-    QFont font,font2;
+
+    bool raceStarted;
+    uint score1,score2;
+
+
+    QState *idle;
+    QState *start;
+    QState *loop;
+    QState *state25;
+    QState *state50;
+    QState *state75;
+    QState *win1;
+    QState *win2;
+
 signals:
-    void gotJump(int);
-    void gotValidJump();
-    void countDownOver();
-    void displayOver();
+    void gotStart(void);
+    void doneWin1(void);
+    void doneWin2(void);
+    void done25p(void);
+    void done50p(void);
+    void done75p(void);
+
 
 private slots:
-    void getJump(int time);
-    void goIdle();
-    void goRules();
-    void goCountDown();
-    void goJump();
-    void goResult();
-    void updateDisplay();
+    void getData(int bike);
+    void updateScores(void);
 
-    void showVideo();
-    void countDown();
-    void showEarth();
-    void showMoon();
-    void showJupiter();
-    void showMars();
+    void goIdle(void);
+    void goStart(void);
+    void goLoop(void);
+    void go25(void);
+    void go50(void);
+    void go75(void);
+    void goWin1(void);
+    void goWin2(void);
+
 
 
 protected:

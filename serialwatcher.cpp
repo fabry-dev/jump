@@ -20,7 +20,7 @@ serialWatcher::serialWatcher(QObject *parent):QObject(parent)
         qDebug()<<"serial error";
 
 
-    port->setBaudRate(QSerialPort::Baud9600)
+    port->setBaudRate(QSerialPort::Baud19200)
 
             && port->setDataBits(QSerialPort::Data8)
 
@@ -45,9 +45,7 @@ void serialWatcher::readData()
 {
 
     const QByteArray data = port->readAll();
-    uchar b = data.at(0);
-    int time = b*10;
-    emit getJumpTime(time);
+    emit getData(data.at(0));
 
 
 }

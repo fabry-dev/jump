@@ -26,7 +26,7 @@ mpvWidget::mpvWidget(QWidget *parent, Qt::WindowFlags f)
         throw std::runtime_error("could not create mpv context");
 
     //  mpv_set_option_string(mpv, "terminal", "yes");
-  //   mpv_set_option_string(mpv, "msg-level", "all=v");
+    //   mpv_set_option_string(mpv, "msg-level", "all=v");
     if (mpv_initialize(mpv) < 0)
         throw std::runtime_error("could not initialize mpv context");
 
@@ -69,15 +69,19 @@ void mpvWidget::command(const QVariant& params)
 void mpvWidget::loadFile(QString videoFile)
 {
     QByteArray ba = videoFile.toLatin1();
-    const char *videoFile2 = ba.data();
-    const char *cmd[] = {"loadfile", videoFile2, "append-play"};
-
-    //mpv_command(mpv, cmd);
     //command(QStringList() << "loadfile" << videoFile<<"append-play");
-command(QStringList() << "loadfile" << videoFile);
+    command(QStringList() << "loadfile" << videoFile);
+    setProperty("pause",false);
 }
 
+void mpvWidget::loadFilePaused(QString videoFile)
+{
+    QByteArray ba = videoFile.toLatin1();
+    //command(QStringList() << "loadfile" << videoFile<<"append-play");
+    setProperty("pause",true);
+    command(QStringList() << "loadfile" << videoFile);
 
+}
 
 
 void mpvWidget::stop()
@@ -102,7 +106,7 @@ void mpvWidget::setLoop(bool looping)
 void mpvWidget::setCrop()
 {
 
- mpv::qt::set_option_variant(mpv, "vf", QStringList()<<"crop"<<"1920:1080:0:0");
+    mpv::qt::set_option_variant(mpv, "vf", QStringList()<<"crop"<<"1920:1080:0:0");
 }
 
 
@@ -151,14 +155,14 @@ void mpvWidget::handle_mpv_event(mpv_event *event)
     switch (event->event_id) {
     case MPV_EVENT_PAUSE:
     {
-// qDebug()<<"ennnnnd";
-   // emit videoOver();
+        // qDebug()<<"ennnnnd";
+        emit videoOver();
         break;
     }
     case MPV_EVENT_IDLE:
     {
 
- emit videoOver();
+
         break;
     }
     case MPV_EVENT_PROPERTY_CHANGE: {
@@ -205,4 +209,10 @@ void mpvWidget::maybeUpdate()
 void mpvWidget::on_update(void *ctx)
 {
     QMetaObject::invokeMethod((mpvWidget*)ctx, "maybeUpdate");
+}
+
+
+void mpvWidget::mousePressEvent(QMouseEvent *event)
+{
+    emit clicked(event->pos());
 }

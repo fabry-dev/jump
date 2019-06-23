@@ -27,7 +27,7 @@ private slots:
 
 
 signals:
-    void getJumpTime(int time);
+    void getData(int time);
 
 
 
